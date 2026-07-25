@@ -17,22 +17,14 @@
 
 SolarSync is a **cloud-native SaaS platform** engineered as a full-stack automated data pipeline for rooftop solar asset management. It demonstrates a complete **Extract → Transform → Load (ETL)** architecture integrating live REST APIs into a 3NF-normalised SQL database, powering real-time operational dashboards.
 
-> **Resume-backed skills demonstrated:**
-> - ETL pipeline engineering (Python, REST APIs, Supabase PostgreSQL)
-> - 3NF database normalisation with RBAC (Row Level Security)
-> - Automated data ingestion from Open-Meteo REST API
-> - JSON payload transformation into analytical schemas
-> - Connection pooling via Supabase pgBouncer
-> - Cloud deployment across 3 free open-source platforms
-
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        USER BROWSER                             │
-│              React SPA  @  Vercel CDN  (HTTPS)                 │
+│              React SPA  @  Vercel CDN  (HTTPS)                  │
 └──────────────────────────┬──────────────────────────────────────┘
                            │ REST API calls (JWT auth)
 ┌──────────────────────────▼──────────────────────────────────────┐
@@ -43,8 +35,8 @@ SolarSync is a **cloud-native SaaS platform** engineered as a full-stack automat
        │                                           │
 ┌──────▼──────┐                        ┌───────────▼──────────────┐
 │  SUPABASE   │                        │   PYTHON ETL PIPELINE    │
-│ PostgreSQL  │◄───── ETL LOADS ───────│  etl/etl_pipeline.py    │
-│  + pgBouncer│                        │  Runs every hour         │
+│ PostgreSQL  │◄───── ETL LOADS ───────│   etl/etl_pipeline.py    │
+│  + pgBouncer│                        │   Runs every hour        │
 │  + Auth JWT │                        └───────────┬──────────────┘
 │  + RLS RBAC │                                    │
 └─────────────┘                        ┌───────────▼──────────────┐
@@ -56,12 +48,12 @@ SolarSync is a **cloud-native SaaS platform** engineered as a full-stack automat
 
 ---
 
-## 🔄 ETL Pipeline Architecture
+##  ETL Pipeline Architecture
 
 ```
-EXTRACT                TRANSFORM               LOAD
-────────               ─────────               ────
-Open-Meteo     →   JSON → 3NF Schema   →   Supabase
+EXTRACT               TRANSFORM              LOAD
+────────              ─────────              ─────
+Open-Meteo     →    JSON → 3NF Schema   →   Supabase
 REST API            Atomic attributes       PostgreSQL
 (Weather +          No transitive deps      pgBouncer
 Radiation)          Solar kWh formula       Batch upsert
@@ -84,7 +76,7 @@ Batch upserts transformed rows into Supabase PostgreSQL in chunks of 100 for thr
 
 ---
 
-## 🗄️ Database Schema (3NF Normalised)
+##  Database Schema (3NF Normalised)
 
 | Table | Primary Key | Description |
 |-------|------------|-------------|
@@ -96,10 +88,10 @@ Batch upserts transformed rows into Supabase PostgreSQL in chunks of 100 for thr
 | `maintenance_logs` | `id` UUID | AI maintenance records |
 
 **3NF Compliance:**
-- ✅ All attributes depend only on the primary key (no partial dependencies)
-- ✅ No transitive dependencies between non-key attributes
-- ✅ Foreign keys maintain referential integrity
-- ✅ `weather_forecasts` uses `forecast_date` as natural key for idempotent ETL
+-  All attributes depend only on the primary key (no partial dependencies)
+-  No transitive dependencies between non-key attributes
+-  Foreign keys maintain referential integrity
+-  `weather_forecasts` uses `forecast_date` as natural key for idempotent ETL
 
 **Analytical Views:**
 - `daily_generation_summary` — aggregates hourly readings per user per day
@@ -107,7 +99,7 @@ Batch upserts transformed rows into Supabase PostgreSQL in chunks of 100 for thr
 
 ---
 
-## 🔐 Security — RBAC Implementation
+##  Security — RBAC Implementation
 
 ```sql
 -- Row Level Security (RLS) enforced on all 6 tables
@@ -127,7 +119,7 @@ CREATE POLICY "user_only" ON energy_readings
 
 ---
 
-## ⚡ Connection Pooling
+##  Connection Pooling
 
 Supabase provides built-in **pgBouncer** connection pooler:
 
@@ -142,46 +134,46 @@ The ETL pipeline and backend API both connect through the pooler automatically v
 
 ---
 
-## 🚀 Features
+##  Features
 
 | # | Feature | Tech Used |
 |---|---------|-----------|
-| 1 | ⚡ Live Energy Dashboard | Supabase real-time, Node.js API |
-| 2 | 🔧 AI Predictive Maintenance | Panel health scoring, DB queries |
-| 3 | 📊 ROI & Payback Calculator | Frontend math engine |
-| 4 | 🌿 Carbon Footprint Tracker | ETL-derived CO₂ metrics |
-| 5 | 👥 Neighborhood Benchmarking | Aggregated SQL views |
-| 6 | 🌤️ Weather Solar Forecast | Open-Meteo API + ETL pipeline |
-| 7 | 🏛️ Govt Subsidy Tracker | Static + dynamic data layer |
+| 1 |  Live Energy Dashboard | Supabase real-time, Node.js API |
+| 2 |  AI Predictive Maintenance | Panel health scoring, DB queries |
+| 3 |  ROI & Payback Calculator | Frontend math engine |
+| 4 |  Carbon Footprint Tracker | ETL-derived CO₂ metrics |
+| 5 |  Neighborhood Benchmarking | Aggregated SQL views |
+| 6 |  Weather Solar Forecast | Open-Meteo API + ETL pipeline |
+| 7 |  Govt Subsidy Tracker | Static + dynamic data layer |
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
-### 🔐 Login & Signup
+###  Login & Signup
 ![Login](./docs/screenshots/01_login.png)
 
-### ⚡ Live Energy Dashboard
+###  Live Energy Dashboard
 ![Dashboard](./docs/screenshots/02_dashboard.png)
 
-### 🔧 AI Maintenance Panel
+###  AI Maintenance Panel
 ![Maintenance](./docs/screenshots/03_maintenance.png)
 
-### 📊 ROI Calculator
+###  ROI Calculator
 ![ROI](./docs/screenshots/04_roi.png)
 
-### 🌿 Carbon Tracker
+###  Carbon Tracker
 ![Carbon](./docs/screenshots/05_carbon.png)
 
-### 🌤️ Weather Forecast
+###  Weather Forecast
 ![Weather](./docs/screenshots/06_weather.png)
 
-### 🏛️ Subsidy Tracker
+###  Subsidy Tracker
 ![Subsidy](./docs/screenshots/07_subsidy.png)
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 ### Frontend
 | Tool | Purpose |
@@ -224,7 +216,7 @@ The ETL pipeline and backend API both connect through the pooler automatically v
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```
 solarsync/
@@ -259,7 +251,7 @@ solarsync/
 
 ---
 
-## 🔧 Setup & Installation
+##  Setup & Installation
 
 ### Prerequisites
 - Node.js 20+
@@ -312,19 +304,19 @@ npm run dev       # http://localhost:5173
 
 ---
 
-## 🌐 Live Links
+##  Live Links
 
 | Resource | URL |
 |----------|-----|
-| 🌍 Live Application | https://solarsync-pied.vercel.app/ |
-| 🚀 Backend API | https://solarsync-backend.onrender.com |
-| 📡 API Health Check | https://solarsync-backend.onrender.com/ |
-| 🌤️ Open-Meteo (source) | https://api.open-meteo.com/v1/forecast |
-| 🗄️ Supabase Dashboard | https://supabase.com/dashboard |
+|  Live Application | https://solarsync-pied.vercel.app/ |
+|  Backend API | https://solarsync-backend.onrender.com |
+|  API Health Check | https://solarsync-backend.onrender.com/ |
+|  Open-Meteo (source) | https://api.open-meteo.com/v1/forecast |
+|  Supabase Dashboard | https://supabase.com/dashboard |
 
 ---
 
-## 👥 Team
+##  Team
 
 | Name | USN | Roll No |
 |------|-----|---------|
@@ -338,6 +330,6 @@ npm run dev       # http://localhost:5173
 
 ---
 
-## 📄 License
+##  License
 
 MIT License — free to use for educational purposes.
