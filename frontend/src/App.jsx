@@ -1179,7 +1179,7 @@ export default function SolarSync() {
       <Sidebar active={active} setActive={setActive} user={user} onLogout={handleLogout}/>
       <div style={{ marginLeft:240, minHeight:"100vh", background:"#F8FAFC" }}>
         <header style={{ position:"sticky", top:0, zIndex:50, background:"rgba(248,250,252,0.92)", backdropFilter:"blur(12px)", borderBottom:"1px solid #E2E8F0", padding:"14px 28px", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-          <div style={{ fontSize:12, color:"#64748B" }}>📍 Coimbatore, TN &nbsp;|&nbsp; 🟢 Connected to Supabase + Railway API</div>
+          <div style={{ fontSize:12, color:"#64748B" }}>📍 Hubballi, KA &nbsp;|&nbsp; 🟢 Connected to Supabase + Railway API</div>
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
             <div style={{ position:"relative" }}>
               <button className="btn-ghost" style={{ padding:"8px 12px", display:"flex", alignItems:"center", gap:6, fontSize:13 }} onClick={()=>setNotif(!notif)}>
